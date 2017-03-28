@@ -43,6 +43,7 @@ namespace Rocket_Jobs
                     { "error_invalid_job_in_storage", "Stored job that player was applying to does not exist anymore." },
                     { "error_not_leader_of_job", "You are not the leader of {0}. You may not accept that request." },
                     { "error_player_not_in_job", "Unable to remove player from the job {0}." },
+                    { "error_contact_admin", "An error has occured, please contact an admin about this." },
                     { "notification_quiet_joined_job", "You have joined the job {0}." },
                     { "notification_quiet_joined_job_admin", "{0} has joined the job {1}." },
                     { "notification_global_joined_job", "{0} has joined the job {1}." },

@@ -1,6 +1,7 @@
 ﻿using Rocket.API;
 using Rocket.API.Serialisation;
 using Rocket.Core;
+using Rocket.Core.Logging;
 using Rocket.Core.Permissions;
 using Rocket.Unturned.Chat;
 using Rocket.Unturned.Player;
@@ -61,34 +62,52 @@ namespace Rocket_Jobs
                     foreach (PublicJobs Job in RocketJobs.Instance.ConfigPubJobs)
                     {
                         RocketPermissionsGroup Group = Permissions.GetGroup(Job.PermissionGroup);
-                        foreach (string IDS in Group.Members)
+                        if (Group != null)
                         {
-                            if (IDS == ID.ToString())
+                            foreach (string IDS in Group.Members)
                             {
-                                UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_already_in_a_job"));
-                                return;
+                                if (IDS == ID.ToString())
+                                {
+                                    UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_already_in_a_job"));
+                                    return;
+                                }
                             }
                         }
+                        Logger.LogWarning("Permission Group " + Job.PermissionGroup + " does not exist!");
                     }
                     foreach (PrivateJobs Job in RocketJobs.Instance.ConfigPrivJobs)
                     {
                         RocketPermissionsGroup Group = Permissions.GetGroup(Job.PermissionGroup);
-                        foreach (string IDS in Group.Members)
+                        if (Group != null)
                         {
-                            if (IDS == ID.ToString())
+                            foreach (string IDS in Group.Members)
                             {
-                                UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_already_in_a_job"));
-                                return;
+                                if (IDS == ID.ToString())
+                                {
+                                    UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_already_in_a_job"));
+                                    return;
+                                }
                             }
                         }
-                        RocketPermissionsGroup Group2 = Permissions.GetGroup(Job.LeaderPermissionGroup);
-                        foreach (string IDS in Group2.Members)
+                        else if (Group == null)
                         {
-                            if (IDS == ID.ToString())
+                            Logger.LogWarning("Permission Group " + Job.PermissionGroup + " does not exist!");
+                        }
+                        RocketPermissionsGroup Group2 = Permissions.GetGroup(Job.LeaderPermissionGroup);
+                        if (Group2 != null)
+                        {
+                            foreach (string IDS in Group2.Members)
                             {
-                                UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_leader_of_a_job"));
-                                return;
+                                if (IDS == ID.ToString())
+                                {
+                                    UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_leader_of_a_job"));
+                                    return;
+                                }
                             }
+                        }
+                        else if (Group2 == null)
+                        {
+                            Logger.LogWarning("Permission Group " + Job.LeaderPermissionGroup + " does not exist!");
                         }
                     }
                     #endregion 
@@ -97,35 +116,52 @@ namespace Rocket_Jobs
                     {
                         if (Jobs.JobName.ToLower() == command[0].ToLower())
                         {
-                            Permissions.AddPlayerToGroup(Jobs.PermissionGroup, caller);
-                            UnturnedChat.Say(caller, RocketJobs.Instance.Translate("notification_quiet_joined_job"));
-                            if (RocketJobs.Instance.Configuration.Instance.AnnounceJobJoin)
+                            RocketPermissionsGroup Group = Permissions.GetGroup(Jobs.PermissionGroup);
+                            if (Group != null)
                             {
-                                UnturnedChat.Say(RocketJobs.Instance.Translate("notification_global_joined_job", Player.CharacterName, Jobs.JobName));
+                                Permissions.AddPlayerToGroup(Jobs.PermissionGroup, caller);
+                                UnturnedChat.Say(caller, RocketJobs.Instance.Translate("notification_quiet_joined_job"));
+                                if (RocketJobs.Instance.Configuration.Instance.AnnounceJobJoin)
+                                {
+                                    UnturnedChat.Say(RocketJobs.Instance.Translate("notification_global_joined_job", Player.CharacterName, Jobs.JobName));
+                                }
+                                return;
                             }
-                            return;
+                            else if (Group == null)
+                            {
+                                UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_contact_admin"));
+                                Logger.LogWarning("Permission Group " + Jobs.PermissionGroup + " does not exist!");
+                            }
                         }
                     }
                     foreach (PrivateJobs Jobs in RocketJobs.Instance.ConfigPrivJobs)
                     {
                         if (Jobs.JobName.ToLower() == command[0].ToLower())
                         {
-                            RocketPermissionsGroup Group2 = Permissions.GetGroup(Jobs.LeaderPermissionGroup);
-                            foreach (string IDS in Group2.Members)
+                            RocketPermissionsGroup Group = Permissions.GetGroup(Jobs.LeaderPermissionGroup);
+                            if (Group != null)
                             {
-                                foreach (SteamPlayer player in Provider.clients)
+                                foreach (string IDS in Group.Members)
                                 {
-                                    if (IDS == player.playerID.steamID.ToString())
+                                    foreach (SteamPlayer player in Provider.clients)
                                     {
-                                        UnturnedPlayer target = UnturnedPlayer.FromCSteamID(player.playerID.steamID);
-                                        Appliances.Applications.Add(ID, Jobs.JobName);
-                                        UnturnedChat.Say(target, RocketJobs.Instance.Translate("notification_player_applying", Player.CharacterName));
-                                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("notification_applied_to_job", Jobs.JobName));
-                                        return;
+                                        if (IDS == player.playerID.steamID.ToString())
+                                        {
+                                            UnturnedPlayer target = UnturnedPlayer.FromCSteamID(player.playerID.steamID);
+                                            Appliances.Applications.Add(ID, Jobs.JobName);
+                                            UnturnedChat.Say(target, RocketJobs.Instance.Translate("notification_player_applying", Player.CharacterName));
+                                            UnturnedChat.Say(caller, RocketJobs.Instance.Translate("notification_applied_to_job", Jobs.JobName));
+                                            return;
+                                        }
                                     }
                                 }
+                                UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_leader_offline", Jobs.JobName));
                             }
-                            UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_leader_offline", Jobs.JobName));
+                            else if (Group == null)
+                            {
+                                UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_contact_admin"));
+                                Logger.LogWarning("Permission Group " + Jobs.PermissionGroup + " does not exist!");
+                            }
                         }
                     }
                     #endregion
