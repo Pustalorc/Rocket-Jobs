@@ -52,30 +52,33 @@ namespace Rocket_Jobs
                 else if (command.Length == 1)
                 {
                     UnturnedPlayer Target = UnturnedPlayer.FromName(command[0].ToLower());
-                    if (Appliances.Applications.ContainsKey(Target.CSteamID))
+                    if (RocketJobs.Instance.Applications.ContainsKey(Target.CSteamID))
                     {
-                        string JobName = Appliances.Applications[Target.CSteamID];
+                        string JobName = RocketJobs.Instance.Applications[Target.CSteamID];
                         foreach (PrivateJobs Job in RocketJobs.Instance.ConfigPrivJobs)
                         {
                             if (Job.JobName.ToLower() == JobName.ToLower())
                             {
                                 RocketPermissionsGroup Group = Permissions.GetGroup(Job.LeaderPermissionGroup);
-                                foreach (string IDS in Group.Members)
+                                if (Group != null)
                                 {
-                                    if (IDS == ID.ToString())
+                                    foreach (string IDS in Group.Members)
                                     {
-                                        Permissions.AddPlayerToGroup(Job.PermissionGroup, Target);
-                                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("notification_accepted_application", Target.CharacterName));
-                                        UnturnedChat.Say(Target, RocketJobs.Instance.Translate("notification_quiet_joined_job", Job.JobName));
-                                        if (RocketJobs.Instance.Configuration.Instance.AnnounceJobJoin)
+                                        if (IDS == ID.ToString())
                                         {
-                                            UnturnedChat.Say(RocketJobs.Instance.Translate("notification_global_joined_job", Target.CharacterName, Job.JobName));
+                                            Permissions.AddPlayerToGroup(Job.PermissionGroup, Target);
+                                            UnturnedChat.Say(caller, RocketJobs.Instance.Translate("notification_accepted_application", Target.CharacterName));
+                                            UnturnedChat.Say(Target, RocketJobs.Instance.Translate("notification_quiet_joined_job", Job.JobName));
+                                            if (RocketJobs.Instance.Configuration.Instance.AnnounceJobJoin)
+                                            {
+                                                UnturnedChat.Say(RocketJobs.Instance.Translate("notification_global_joined_job", Target.CharacterName, Job.JobName));
+                                            }
+                                            return;
                                         }
-                                        return;
                                     }
+                                    UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_not_leader_of_job", Job.JobName));
+                                    return;
                                 }
-                                UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_not_leader_of_job", Job.JobName));
-                                return;
                             }
                         }
                         UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_invalid_job_in_storage"));

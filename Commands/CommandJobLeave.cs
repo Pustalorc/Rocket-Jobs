@@ -46,26 +46,32 @@ namespace Rocket_Jobs
                 foreach (PublicJobs Job in RocketJobs.Instance.ConfigPubJobs)
                 {
                     RocketPermissionsGroup Group = Permissions.GetGroup(Job.PermissionGroup);
-                    foreach (string IDS in Group.Members)
+                    if (Group != null)
                     {
-                        if (IDS == ID.ToString())
+                        foreach (string IDS in Group.Members)
                         {
-                            Permissions.RemovePlayerFromGroup(Job.PermissionGroup, caller);
-                            UnturnedChat.Say(caller, RocketJobs.Instance.Translate("notification_left_job", Job.JobName));
-                            return;
+                            if (IDS == ID.ToString())
+                            {
+                                Permissions.RemovePlayerFromGroup(Job.PermissionGroup, caller);
+                                UnturnedChat.Say(caller, RocketJobs.Instance.Translate("notification_left_job", Job.JobName));
+                                return;
+                            }
                         }
                     }
                 }
                 foreach (PrivateJobs Job in RocketJobs.Instance.ConfigPrivJobs)
                 {
                     RocketPermissionsGroup Group = Permissions.GetGroup(Job.PermissionGroup);
-                    foreach (string IDS in Group.Members)
+                    if (Group != null)
                     {
-                        if (IDS == ID.ToString())
+                        foreach (string IDS in Group.Members)
                         {
-                            Permissions.RemovePlayerFromGroup(Job.PermissionGroup, caller);
-                            UnturnedChat.Say(caller, RocketJobs.Instance.Translate("notification_left_job", Job.JobName));
-                            return;
+                            if (IDS == ID.ToString())
+                            {
+                                Permissions.RemovePlayerFromGroup(Job.PermissionGroup, caller);
+                                UnturnedChat.Say(caller, RocketJobs.Instance.Translate("notification_left_job", Job.JobName));
+                                return;
+                            }
                         }
                     }
                 }

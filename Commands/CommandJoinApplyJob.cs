@@ -53,7 +53,7 @@ namespace Rocket_Jobs
                 else if (command.Length == 1)
                 {
                     #region PreventMakingMoreThan1Application
-                    if (Appliances.Applications.ContainsKey(Player.CSteamID))
+                    if (RocketJobs.Instance.Applications.ContainsKey(Player.CSteamID))
                     {
                         UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_already_applying"));
                     }
@@ -73,7 +73,10 @@ namespace Rocket_Jobs
                                 }
                             }
                         }
-                        Logger.LogWarning("Permission Group " + Job.PermissionGroup + " does not exist!");
+                        if (Group == null)
+                        {
+                            Logger.LogWarning("Permission Group " + Job.PermissionGroup + " does not exist!");
+                        }
                     }
                     foreach (PrivateJobs Job in RocketJobs.Instance.ConfigPrivJobs)
                     {
@@ -148,7 +151,7 @@ namespace Rocket_Jobs
                                         if (IDS == player.playerID.steamID.ToString())
                                         {
                                             UnturnedPlayer target = UnturnedPlayer.FromCSteamID(player.playerID.steamID);
-                                            Appliances.Applications.Add(ID, Jobs.JobName);
+                                            RocketJobs.Instance.Applications.Add(ID, Jobs.JobName);
                                             UnturnedChat.Say(target, RocketJobs.Instance.Translate("notification_player_applying", Player.CharacterName));
                                             UnturnedChat.Say(caller, RocketJobs.Instance.Translate("notification_applied_to_job", Jobs.JobName));
                                             return;
@@ -156,6 +159,7 @@ namespace Rocket_Jobs
                                     }
                                 }
                                 UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_leader_offline", Jobs.JobName));
+                                return;
                             }
                             else if (Group == null)
                             {

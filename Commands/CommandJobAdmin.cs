@@ -134,33 +134,42 @@ namespace Rocket_Jobs
                         foreach (PublicJobs Job in RocketJobs.Instance.ConfigPubJobs)
                         {
                             RocketPermissionsGroup Group = Permissions.GetGroup(Job.PermissionGroup);
-                            foreach (string Members in Group.Members)
+                            if (Group != null)
                             {
-                                if (Members == TargetID.ToString())
+                                foreach (string Members in Group.Members)
                                 {
-                                    UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_already_in_a_job_admin"));
-                                    return;
+                                    if (Members == TargetID.ToString())
+                                    {
+                                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_already_in_a_job_admin"));
+                                        return;
+                                    }
                                 }
                             }
                         }
                         foreach (PrivateJobs Job in RocketJobs.Instance.ConfigPrivJobs)
                         {
                             RocketPermissionsGroup Group = Permissions.GetGroup(Job.PermissionGroup);
-                            foreach (string Members in Group.Members)
+                            if (Group != null)
                             {
-                                if (Members == TargetID.ToString())
+                                foreach (string Members in Group.Members)
                                 {
-                                    UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_already_in_a_job_admin"));
-                                    return;
+                                    if (Members == TargetID.ToString())
+                                    {
+                                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_already_in_a_job_admin"));
+                                        return;
+                                    }
                                 }
                             }
                             RocketPermissionsGroup Group2 = Permissions.GetGroup(Job.LeaderPermissionGroup);
-                            foreach (string IDS in Group2.Members)
+                            if (Group2 != null)
                             {
-                                if (IDS == ID.ToString())
+                                foreach (string IDS in Group2.Members)
                                 {
-                                    UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_leader_of_a_job_admin"));
-                                    return;
+                                    if (IDS == ID.ToString())
+                                    {
+                                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_leader_of_a_job_admin"));
+                                        return;
+                                    }
                                 }
                             }
                         }

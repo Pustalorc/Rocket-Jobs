@@ -3,6 +3,7 @@ using Rocket.Core.Logging;
 using Rocket.Core.Plugins;
 using Rocket.Unturned;
 using Rocket.Unturned.Player;
+using Steamworks;
 using System;
 using System.Collections.Generic;
 
@@ -13,6 +14,7 @@ namespace Rocket_Jobs
         public static RocketJobs Instance;
         public List<PublicJobs> ConfigPubJobs;
         public List<PrivateJobs> ConfigPrivJobs;
+        public Dictionary<CSteamID, string> Applications;
 
         public override TranslationList DefaultTranslations
         {
@@ -65,6 +67,7 @@ namespace Rocket_Jobs
 
             ConfigPubJobs = Configuration.Instance.PublicJobs;
             ConfigPrivJobs = Configuration.Instance.PrivateJobs;
+            Applications = new Dictionary<CSteamID, string>();
             
             U.Events.OnPlayerDisconnected += Events_OnPlayerDisconnected;
 
@@ -78,15 +81,16 @@ namespace Rocket_Jobs
                 Instance = null;
                 ConfigPubJobs = null;
                 ConfigPrivJobs = null;
+                Applications = null;
             }
             Logger.Log("Jobs has been unloaded!", ConsoleColor.DarkGreen);
         }
 
         private void Events_OnPlayerDisconnected(UnturnedPlayer player)
         {
-            if (Appliances.Applications.ContainsKey(player.CSteamID))
+            if (Applications.ContainsKey(player.CSteamID))
             {
-                Appliances.Applications.Remove(player.CSteamID);
+                Applications.Remove(player.CSteamID);
             }
         }
     }

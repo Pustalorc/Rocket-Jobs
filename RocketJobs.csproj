@@ -64,7 +64,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\Appliances.cs" />
     <Compile Include="Commands\CommandJobAccept.cs" />
     <Compile Include="Commands\CommandJobAdmin.cs" />
     <Compile Include="Commands\CommandJobLeave.cs" />
