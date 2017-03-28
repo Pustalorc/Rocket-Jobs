@@ -51,7 +51,7 @@ namespace Rocket_Jobs
                         if (IDS == ID.ToString())
                         {
                             Permissions.RemovePlayerFromGroup(Job.PermissionGroup, caller);
-                            UnturnedChat.Say(caller, RocketJobs.Instance.Translate("notification_left_job"));
+                            UnturnedChat.Say(caller, RocketJobs.Instance.Translate("notification_left_job", Job.JobName));
                             return;
                         }
                     }
@@ -64,7 +64,7 @@ namespace Rocket_Jobs
                         if (IDS == ID.ToString())
                         {
                             Permissions.RemovePlayerFromGroup(Job.PermissionGroup, caller);
-                            UnturnedChat.Say(caller, RocketJobs.Instance.Translate("notification_left_job"));
+                            UnturnedChat.Say(caller, RocketJobs.Instance.Translate("notification_left_job", Job.JobName));
                             return;
                         }
                     }

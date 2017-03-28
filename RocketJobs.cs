@@ -19,7 +19,6 @@ namespace Rocket_Jobs
             get
             {
                 return new TranslationList(){
-                    { "joined_job", "{0} now works at {1}!" },
                     { "list_usage", "/jobs <private | public> <page>"  },
                     { "join_apply_usage", "/jjob <job name>" },
                     { "accept_usage", "/ajob <player name>" },

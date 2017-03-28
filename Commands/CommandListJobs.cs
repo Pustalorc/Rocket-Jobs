@@ -68,7 +68,7 @@ namespace Rocket_Jobs
                                 }
                                 if (RocketJobs.Instance.ConfigPubJobs.Count != 4)
                                 {
-                                    UnturnedChat.Say(caller, RocketJobs.Instance.Translate("end_of_list"));
+                                    UnturnedChat.Say(caller, RocketJobs.Instance.Translate("end_of_list", command[0].ToLower()));
                                 }
                                 return;
                             }
@@ -77,7 +77,7 @@ namespace Rocket_Jobs
                                 UnturnedChat.Say(caller, RocketJobs.Instance.Translate("pub_job_notification", RocketJobs.Instance.ConfigPubJobs[0].JobName));
                                 UnturnedChat.Say(caller, RocketJobs.Instance.Translate("pub_job_notification", RocketJobs.Instance.ConfigPubJobs[1].JobName));
                                 UnturnedChat.Say(caller, RocketJobs.Instance.Translate("pub_job_notification", RocketJobs.Instance.ConfigPubJobs[2].JobName));
-                                UnturnedChat.Say(caller, RocketJobs.Instance.Translate("next_page_notification"));
+                                UnturnedChat.Say(caller, RocketJobs.Instance.Translate("next_page_notification", command[0].ToLower(), 2));
                             }
                             break;
                         case "private":
@@ -89,7 +89,7 @@ namespace Rocket_Jobs
                                 }
                                 if (RocketJobs.Instance.ConfigPrivJobs.Count != 4)
                                 {
-                                    UnturnedChat.Say(caller, RocketJobs.Instance.Translate("end_of_list"));
+                                    UnturnedChat.Say(caller, RocketJobs.Instance.Translate("end_of_list", command[0].ToLower()));
                                 }
                                 return;
                             }
@@ -98,7 +98,7 @@ namespace Rocket_Jobs
                                 UnturnedChat.Say(caller, RocketJobs.Instance.Translate("priv_job_notification", RocketJobs.Instance.ConfigPrivJobs[0].JobName));
                                 UnturnedChat.Say(caller, RocketJobs.Instance.Translate("priv_job_notification", RocketJobs.Instance.ConfigPrivJobs[1].JobName));
                                 UnturnedChat.Say(caller, RocketJobs.Instance.Translate("priv_job_notification", RocketJobs.Instance.ConfigPrivJobs[2].JobName));
-                                UnturnedChat.Say(caller, RocketJobs.Instance.Translate("next_page_notification"));
+                                UnturnedChat.Say(caller, RocketJobs.Instance.Translate("next_page_notification", command[0].ToLower(), 2));
                             }
                             break;
                         default:
@@ -135,7 +135,7 @@ namespace Rocket_Jobs
                                 {
                                     if (i == Max)
                                     {
-                                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("next_page_notification"));
+                                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("next_page_notification", command[0].ToLower(), (PageNumber + 1)));
                                         break;
                                     }
                                     else
@@ -152,7 +152,7 @@ namespace Rocket_Jobs
                                 {
                                     if (CurrentJob > JobCount)
                                     {
-                                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("end_of_list"));
+                                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("end_of_list", command[0].ToLower()));
                                         break;
                                     }
                                     else
@@ -190,7 +190,7 @@ namespace Rocket_Jobs
                                 {
                                     if (i == Max)
                                     {
-                                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("next_page_notification"));
+                                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("next_page_notification", command[0].ToLower(), (PageNumber + 1)));
                                         break;
                                     }
                                     else
@@ -207,7 +207,7 @@ namespace Rocket_Jobs
                                 {
                                     if (CurrentJob > JobCount)
                                     {
-                                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("end_of_list"));
+                                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("end_of_list", command[0].ToLower()));
                                         break;
                                     }
                                     else

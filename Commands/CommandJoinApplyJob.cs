@@ -120,7 +120,7 @@ namespace Rocket_Jobs
                             if (Group != null)
                             {
                                 Permissions.AddPlayerToGroup(Jobs.PermissionGroup, caller);
-                                UnturnedChat.Say(caller, RocketJobs.Instance.Translate("notification_quiet_joined_job"));
+                                UnturnedChat.Say(caller, RocketJobs.Instance.Translate("notification_quiet_joined_job", Jobs.JobName));
                                 if (RocketJobs.Instance.Configuration.Instance.AnnounceJobJoin)
                                 {
                                     UnturnedChat.Say(RocketJobs.Instance.Translate("notification_global_joined_job", Player.CharacterName, Jobs.JobName));

@@ -80,7 +80,7 @@ namespace Rocket_Jobs
                             }
                         }
                         #endregion
-                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_job_not_found"));
+                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_job_not_found", command[1].ToLower()));
                         return;
                     }
                     else if (command[0].ToLower() == "add" || command[0].ToLower() == "remove")
@@ -123,7 +123,7 @@ namespace Rocket_Jobs
                             }
                         }
                         #endregion
-                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_job_not_found"));
+                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_job_not_found", command[1].ToLower()));
                         return;
                     }
                     else if (command[0].ToLower() == "add")
@@ -205,7 +205,7 @@ namespace Rocket_Jobs
                             }
                         }
                         #endregion
-                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_job_not_found"));
+                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_job_not_found", command[1].ToLower()));
                         return;
                     }
                     else if (command[0].ToLower() == "remove")
@@ -256,7 +256,7 @@ namespace Rocket_Jobs
                             }
                         }
                         #endregion
-                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_job_not_found"));
+                        UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_job_not_found", command[1].ToLower()));
                     }
                     UnturnedChat.Say(caller, RocketJobs.Instance.Translate("admin_usage"));
                     return;
