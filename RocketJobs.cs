@@ -15,6 +15,7 @@ namespace Rocket_Jobs
         public List<PublicJobs> ConfigPubJobs;
         public List<PrivateJobs> ConfigPrivJobs;
         public Dictionary<CSteamID, string> Applications;
+        private const string Build = "5";
 
         public override TranslationList DefaultTranslations
         {
@@ -71,7 +72,7 @@ namespace Rocket_Jobs
             
             U.Events.OnPlayerDisconnected += Events_OnPlayerDisconnected;
 
-            Logger.Log("Jobs has been loaded!", ConsoleColor.DarkGreen);
+            Logger.Log("Jobs, build #" + Build + " has been loaded!", ConsoleColor.DarkGreen);
         }
 
         protected override void Unload()
