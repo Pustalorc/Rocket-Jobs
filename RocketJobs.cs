@@ -15,7 +15,7 @@ namespace Rocket_Jobs
         public List<PublicJobs> ConfigPubJobs;
         public List<PrivateJobs> ConfigPrivJobs;
         public Dictionary<CSteamID, string> Applications;
-        private const string Build = "5";
+        private const string Build = "6";
 
         public override TranslationList DefaultTranslations
         {

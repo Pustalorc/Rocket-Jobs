@@ -60,7 +60,7 @@ namespace Rocket_Jobs
                                 RocketPermissionsGroup Group = Permissions.GetGroup(Jobs.PermissionGroup);
                                 if (Group != null)
                                 {
-                                    Group.Members = null;
+                                    Group.Members = new List<string>();
                                     return;
                                 }
                                 return;
@@ -73,7 +73,7 @@ namespace Rocket_Jobs
                                 RocketPermissionsGroup Group = Permissions.GetGroup(Jobs.PermissionGroup);
                                 if (Group != null)
                                 {
-                                    Group.Members = null;
+                                    Group.Members = new List<string>();
                                     return;
                                 }
                                 return;
@@ -103,7 +103,7 @@ namespace Rocket_Jobs
                                 RocketPermissionsGroup Group = Permissions.GetGroup(Jobs.PermissionGroup);
                                 if (Group != null)
                                 {
-                                    Group.Members = null;
+                                    Group.Members = new List<string>();
                                     return;
                                 }
                                 return;
@@ -116,7 +116,7 @@ namespace Rocket_Jobs
                                 RocketPermissionsGroup Group = Permissions.GetGroup(Jobs.PermissionGroup);
                                 if (Group != null)
                                 {
-                                    Group.Members = null;
+                                    Group.Members = new List<string>();
                                     return;
                                 }
                                 return;

@@ -150,7 +150,7 @@ namespace Rocket_Jobs
                                 int JobCount = RocketJobs.Instance.ConfigPubJobs.Count % 3;
                                 for (int i = Min; i <= Max; i++)
                                 {
-                                    if (CurrentJob > JobCount)
+                                    if (CurrentJob > JobCount - 1)
                                     {
                                         UnturnedChat.Say(caller, RocketJobs.Instance.Translate("end_of_list", command[0].ToLower()));
                                         break;
@@ -202,11 +202,11 @@ namespace Rocket_Jobs
                             }
                             else if (PageNumber == MaxPages)
                             {
-                                int CurrentJob = 1;
+                                int CurrentJob = 0;
                                 int JobCount = RocketJobs.Instance.ConfigPrivJobs.Count % 3;
                                 for (int i = Min; i <= Max; i++)
                                 {
-                                    if (CurrentJob > JobCount)
+                                    if (CurrentJob > JobCount - 1)
                                     {
                                         UnturnedChat.Say(caller, RocketJobs.Instance.Translate("end_of_list", command[0].ToLower()));
                                         break;
@@ -215,6 +215,7 @@ namespace Rocket_Jobs
                                     {
                                         UnturnedChat.Say(caller, RocketJobs.Instance.Translate("priv_job_notification", RocketJobs.Instance.ConfigPrivJobs[i - (PageNumber - 1)].JobName));
                                     }
+                                    CurrentJob++;
                                 }
                             }
                             else if (PageNumber > MaxPages)
