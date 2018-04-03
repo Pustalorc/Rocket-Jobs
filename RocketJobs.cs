@@ -84,6 +84,7 @@ namespace Rocket_Jobs
                 ConfigPrivJobs = null;
                 Applications = null;
             }
+            U.Events.OnPlayerDisconnected -= Events_OnPlayerDisconnected;
             Logger.Log("Jobs has been unloaded!", ConsoleColor.DarkGreen);
         }
 
