@@ -1,6 +1,7 @@
 ﻿using persiafighter.Plugins.Jobs.Classes;
 using persiafighter.Plugins.Jobs.Config;
 using persiafighter.Plugins.Jobs.JobTypes;
+using Rocket.API.Commands;
 using Rocket.API.I18N;
 using Rocket.API.Permissions;
 using Rocket.API.User;
@@ -213,6 +214,7 @@ namespace persiafighter.Plugins.Jobs
         private List<IUser> GetOnlinePlayersInGroup(string GroupName)
         {
             var users = GlobalUserManager.Users.ToList();
+            users.RemoveAll(k => k is IConsole);
             users.RemoveAll(k => !PermissionProvider.GetGroups(k).ToList().Exists(l => l.Id.Equals(GroupName, StringComparison.OrdinalIgnoreCase)));
             return users;
         }
