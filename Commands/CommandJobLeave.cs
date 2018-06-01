@@ -1,93 +1,29 @@
-﻿using Rocket.API;
-using Rocket.API.Serialisation;
-using Rocket.Core;
-using Rocket.Core.Permissions;
-using Rocket.Unturned.Chat;
-using Rocket.Unturned.Player;
-using Steamworks;
-using System.Collections.Generic;
+﻿using Rocket.API.Commands;
+using Rocket.API.Plugins;
+using Rocket.API.User;
+using System;
 
-namespace Rocket_Jobs
+namespace persiafighter.Plugins.Jobs.Commands
 {
-    class CommandJobLeave : IRocketCommand
+    public class CommandJobLeave : ICommand
     {
-        public AllowedCaller AllowedCaller
+        private readonly RocketJobs _rocketJobs;
+
+        public CommandJobLeave(IPlugin plugin)
         {
-            get { return AllowedCaller.Player; }
+            _rocketJobs = (RocketJobs)plugin;
         }
 
-        public string Name
-        {
-            get { return "LeaveJob"; }
-        }
+        public bool SupportsUser(Type user) => user is IUser;
+        public string Name => "LeaveJob";
+        public string Summary => "Leaves the job you are currently in.";
+        public string Description => "Leaves the job you are currently in.";
+        public string Permission => "LeaveJob";
+        public string Syntax => null;
+        public string[] Aliases => new string[] { "LJ", "LJob", "LeaveJ" };
 
-        public string Help
-        {
-            get { return "Leaves the job you are currently in."; }
-        }
+        public IChildCommand[] ChildCommands => null;
 
-        public string Syntax
-        {
-            get { return null; }
-        }
-
-        public List<string> Aliases
-        {
-            get { return new List<string>() { "LJ", "LJob", "LeaveJ" }; }
-        }
-
-        public void Execute(IRocketPlayer caller, string[] command)
-        {
-            RocketPermissionsManager Permissions = R.Instance.GetComponent<RocketPermissionsManager>();
-            if (caller != null)
-            {
-                UnturnedPlayer Player = (UnturnedPlayer)caller;
-                CSteamID ID = Player.CSteamID;
-                foreach (PublicJobs Job in RocketJobs.Instance.ConfigPubJobs)
-                {
-                    RocketPermissionsGroup Group = Permissions.GetGroup(Job.PermissionGroup);
-                    if (Group != null)
-                    {
-                        foreach (string IDS in Group.Members)
-                        {
-                            if (IDS == ID.ToString())
-                            {
-                                Permissions.RemovePlayerFromGroup(Job.PermissionGroup, caller);
-                                UnturnedChat.Say(caller, RocketJobs.Instance.Translate("notification_left_job", Job.JobName));
-                                return;
-                            }
-                        }
-                    }
-                }
-                foreach (PrivateJobs Job in RocketJobs.Instance.ConfigPrivJobs)
-                {
-                    RocketPermissionsGroup Group = Permissions.GetGroup(Job.PermissionGroup);
-                    if (Group != null)
-                    {
-                        foreach (string IDS in Group.Members)
-                        {
-                            if (IDS == ID.ToString())
-                            {
-                                Permissions.RemovePlayerFromGroup(Job.PermissionGroup, caller);
-                                UnturnedChat.Say(caller, RocketJobs.Instance.Translate("notification_left_job", Job.JobName));
-                                return;
-                            }
-                        }
-                    }
-                }
-                UnturnedChat.Say(caller, RocketJobs.Instance.Translate("error_not_in_a_job"));
-            }
-        }
-
-        public List<string> Permissions
-        {
-            get
-            {
-                return new List<string>
-                {
-                    "LeaveJob"
-                };
-            }
-        }
+        public void Execute(ICommandContext context) => _rocketJobs.Helper.RemovePlayerFromJob(context.User, caller: context.User);
     }
 }
