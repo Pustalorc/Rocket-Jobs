@@ -105,7 +105,7 @@ namespace persiafighter.Plugins.Jobs
                             GlobalUserManager.SendLocalizedMessage(Translations, caller, "already_applying");
                         else
                         {
-                            var players = GetPlayersInGroup(@private.LeaderPermissionGroup);
+                            var players = GetOnlinePlayersInGroup(@private.LeaderPermissionGroup);
                             if (players != null && players.Count > 0)
                             {
                                 Applicants.Add(new Application() { ID = Target.Id, Target = @private });
@@ -210,13 +210,11 @@ namespace persiafighter.Plugins.Jobs
 
             return AvailableJobs.Find(k => groups.Exists(l => k.PermissionGroup.Equals(l.Id, StringComparison.OrdinalIgnoreCase)));
         }
-        private List<PlayerPermissionSection> GetPlayersInGroup(string GroupName)
+        private List<IUser> GetOnlinePlayersInGroup(string GroupName)
         {
-            if (!(PermissionProvider is ConfigurationPermissionProvider @realPerms))
-                return null;
-            List<PlayerPermissionSection> players = @realPerms.PlayersConfig.Get<PermissionSection[]>().Where(c => c is PlayerPermissionSection).Cast<PlayerPermissionSection>().ToList();
-            players.RemoveAll(c => !c.Groups.Contains(GroupName));
-            return players;
+            var users = GlobalUserManager.Users.ToList();
+            users.RemoveAll(k => !PermissionProvider.GetGroups(k).ToList().Exists(l => l.Id.Equals(GroupName, StringComparison.OrdinalIgnoreCase)));
+            return users;
         }
     }
 }
