@@ -1,6 +1,5 @@
 ﻿using persiafighter.Plugins.Jobs.Config;
 using Rocket.API.DependencyInjection;
-using Rocket.API.Logging;
 using Rocket.API.Permissions;
 using Rocket.API.User;
 using Rocket.Core.Plugins;
