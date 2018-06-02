@@ -6,11 +6,11 @@ namespace persiafighter.Plugins.Jobs.Commands
 {
     public class CommandJobs : ICommand
     {
-        private readonly RocketJobs _rocketJobs;
+        private readonly RocketJobsPlugin _rocketJobsPlugin;
 
         public CommandJobs(IPlugin plugin)
         {
-            _rocketJobs = (RocketJobs)plugin;
+            _rocketJobsPlugin = (RocketJobsPlugin)plugin;
         }
 
         public bool SupportsUser(Type user) => true;
@@ -19,13 +19,13 @@ namespace persiafighter.Plugins.Jobs.Commands
         public string Description => "Lists the available jobs.";
         public string Permission => "Jobs";
         public string Syntax => null;
-        public string[] Aliases => new string[] { "LJ", "LJobs", "ListJobs" };
+        public string[] Aliases => new[] { "LJ", "LJobs", "ListJobs" };
 
         public IChildCommand[] ChildCommands => null;
 
         public void Execute(ICommandContext context)
         {
-            _rocketJobs.Helper.ListJobs(context.User);
+            _rocketJobsPlugin.JobManager.ListJobs(context.User);
         }
     }
 }

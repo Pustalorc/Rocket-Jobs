@@ -5,42 +5,43 @@ using Rocket.API.Permissions;
 using Rocket.API.User;
 using Rocket.Core.Plugins;
 using System.Collections.Generic;
+using persiafighter.Plugins.Jobs.EventListeners;
+using Rocket.Core.Logging;
 
 namespace persiafighter.Plugins.Jobs
 {
-    public class RocketJobs : Plugin<Configuration>
+    public class RocketJobsPlugin : Plugin<JobsConfiguration>
     {
-        public JobHelper Helper { get; private set; }
-        private IPermissionProvider PermissionProvider { get; set; }
-        private IUserManager UserManager { get; set; }
+        public JobManager JobManager { get; private set; }
+        private readonly IPermissionProvider _permissionProvider;
+        private readonly IUserManager _userManager;
 
-        public RocketJobs(IDependencyContainer container, IPermissionProvider permissionProvider, IUserManager userManager) : base("Jobs", container)
+        public RocketJobsPlugin(IDependencyContainer container, IPermissionProvider permissionProvider, IUserManager userManager) : base("Jobs", container)
         {
-            PermissionProvider = permissionProvider;
-            UserManager = userManager;
+            _permissionProvider = permissionProvider;
+            _userManager = userManager;
         }
 
         protected override void OnLoad(bool isFromReload)
         {
-            if (Helper == null)
-                Helper = new JobHelper(ConfigurationInstance, Translations, PermissionProvider, UserManager);
+            if (JobManager == null)
+                JobManager = new JobManager(ConfigurationInstance, Translations, _permissionProvider, _userManager);
             else
-                Helper.Reload(ConfigurationInstance, Translations);
+                JobManager.Reload(ConfigurationInstance);
 
-            Logger.Log("RocketJobs, by persiafigther, has been sucessfully loaded!", LogLevel.Information);
+            Logger.LogInformation("RocketJobs, by persiafigther, has been sucessfully loaded!");
+
+            EventManager.AddEventListener(this, new PlayerListener(this));
         }
+
         protected override void OnUnload()
         {
-            Helper.ClearAll();
-            Logger.Log("RocketJobs, by persiafighter, has been successfully unloaded!", LogLevel.Information);
+            JobManager.ClearAll();
+            Logger.LogInformation("RocketJobs, by persiafighter, has been successfully unloaded!");
         }
 
         public override Dictionary<string, string> DefaultTranslations => new Dictionary<string, string>
         {
-            /*{ "list_usage", "/jobs <private | public> <page>"  },
-            { "join_apply_usage", "/jjob <job name>" },
-            { "accept_usage", "/ajob <player name>" },
-            { "admin_usage", "/joba <add | remove | clear> <job name> <player name>" },
             { "format_error", "Unable to convert {0} to a number." },
             { "overflow_error", "{0} is too big of a number." },
             { "next_page_notification", "Next page: \"/Jobs {0} {1}\"." },
@@ -68,7 +69,7 @@ namespace persiafighter.Plugins.Jobs
             { "notification_applied_to_job", "You have sent a request to join the job {0}." },
             { "notification_left_job", "You left the job {0}." },
             { "notification_accepted_application", "You have accepted the application of {0}." },
-            { "notification_job_cleared", "You have successfully cleared the job {0}." }*/
+            { "notification_job_cleared", "You have successfully cleared the job {0}." }
         };
     }
 }
