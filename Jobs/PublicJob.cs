@@ -1,4 +1,4 @@
-﻿namespace persiafighter.Plugins.Jobs.JobTypes
+﻿namespace persiafighter.Plugins.Jobs.Jobs
 {
     public class PublicJob : IJob
     {

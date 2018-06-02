@@ -6,22 +6,22 @@ using System;
 
 namespace persiafighter.Plugins.Jobs.Commands
 {
-    public class CommandJobAccept : ICommand
+    public class CommandJobAccept : IChildCommand
     {
-        private readonly RocketJobs _rocketJobs;
+        private readonly RocketJobsPlugin _rocketJobsPlugin;
         
         public CommandJobAccept(IPlugin plugin)
         {
-            _rocketJobs = (RocketJobs)plugin;
+            _rocketJobsPlugin = (RocketJobsPlugin)plugin;
         }
-            
-        public bool SupportsUser(Type user) => user is IUser;
+
+        public bool SupportsUser(Type user) => true;
         public string Name => "JobAccept";
         public string Summary => "Accepts a player requesting to join a job.";
         public string Description => "Accepts a player requesting to join a job.";
         public string Permission => "JobAccept";
         public string Syntax => "<player>";
-        public string[] Aliases => new string[] { "AJ", "AJob", "AcceptJ" };
+        public string[] Aliases => new[] { "AJ", "AJob", "AcceptJ" };
 
         public IChildCommand[] ChildCommands => null;
 
@@ -32,7 +32,7 @@ namespace persiafighter.Plugins.Jobs.Commands
             
             IUserInfo toGiveRank = context.Parameters.Get<IUserInfo>(0);
 
-            _rocketJobs.Helper.AcceptApplication(toGiveRank, context.User);
+            _rocketJobsPlugin.JobManager.AcceptApplication(toGiveRank, context.User);
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿using persiafighter.Plugins.Jobs.JobTypes;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using persiafighter.Plugins.Jobs.Jobs;
 
 namespace persiafighter.Plugins.Jobs.Config
 {
-    public class Configuration
+    public class JobsConfiguration
     {
         public List<IJob> Jobs { get; set; } = new List<IJob>
         {
