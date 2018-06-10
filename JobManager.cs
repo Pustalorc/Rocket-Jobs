@@ -44,7 +44,7 @@ namespace persiafighter.Plugins.Jobs
 
         public void RemovePlayerFromJob(IUserInfo target, string job = null, IUser caller = null)
         {
-            IUser giveRank = target.UserManager.Users.FirstOrDefault(c => string.Equals(c.Id, target.Id, StringComparison.OrdinalIgnoreCase));
+            IUser giveRank = target.UserManager.OnlineUsers.FirstOrDefault(c => string.Equals(c.Id, target.Id, StringComparison.OrdinalIgnoreCase));
 
             var tJob = job != null ? _availableJobs.FirstOrDefault(k => k.JobName.Equals(job, StringComparison.OrdinalIgnoreCase)) : GetPlayerJob(giveRank);
 
@@ -84,7 +84,7 @@ namespace persiafighter.Plugins.Jobs
         }
         public void AddPlayerToJob(IUserInfo target, string job, IUser caller = null)
         {
-            IUser giveRank = target.UserManager.Users.FirstOrDefault(c => string.Equals(c.Id, target.Id, StringComparison.OrdinalIgnoreCase));
+            IUser giveRank = target.UserManager.OnlineUsers.FirstOrDefault(c => string.Equals(c.Id, target.Id, StringComparison.OrdinalIgnoreCase));
 
             IJob tJob = _availableJobs.FirstOrDefault(k => k.JobName.Equals(job, StringComparison.OrdinalIgnoreCase));
             IJob playerJob = GetPlayerJob(giveRank);
@@ -118,7 +118,7 @@ namespace persiafighter.Plugins.Jobs
                     }
 
                     _applicants.Add(new JobApplication() {Id = target.Id, Target = @private});
-                    var player = _globalUserManager.Users.First(k => k.Id == players.First().Id);
+                    var player = _globalUserManager.OnlineUsers.First(k => k.Id == players.First().Id);
                     player.SendLocalizedMessage(_translations, "player_applying",
                         target.Name, @private.JobName);
                     caller.SendLocalizedMessage(_translations, "job_applied");
@@ -137,7 +137,7 @@ namespace persiafighter.Plugins.Jobs
         }
         public void AcceptApplication(IUserInfo target, IUser caller)
         {
-            IUser giveRank = target.UserManager.Users.First(c => string.Equals(c.Id, target.Id, StringComparison.OrdinalIgnoreCase));
+            IUser giveRank = target.UserManager.OnlineUsers.First(c => string.Equals(c.Id, target.Id, StringComparison.OrdinalIgnoreCase));
             JobApplication jobApp = _applicants.FirstOrDefault(k => k.Id == giveRank.Id);
 
             if (jobApp == null)
@@ -189,7 +189,7 @@ namespace persiafighter.Plugins.Jobs
         }
         public void ListJobs(IUser caller)
         {
-            string allJobs = string.Join(", ", _availableJobs.Select(c => c.JobName)) + ".";
+            string allJobs = string.Join(", ", _availableJobs.Select(c => c.JobName).ToArray()) + ".";
             caller.SendLocalizedMessage(_translations, "list_jobs", allJobs);
         }
         public void ClearAll()
@@ -205,7 +205,7 @@ namespace persiafighter.Plugins.Jobs
         }
         private IEnumerable<IUser> GetOnlinePlayersInGroup(string groupName)
         {
-            return _globalUserManager.Users
+            return _globalUserManager.OnlineUsers
                 .Where(k => !(k is IConsole))
                 .Where(k => _permissionProvider.GetGroups(k)
                     .Any(l => l.Id.Equals(groupName, StringComparison.OrdinalIgnoreCase)));
