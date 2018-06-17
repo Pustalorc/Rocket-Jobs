@@ -55,7 +55,7 @@ namespace persiafighter.Plugins.Jobs
                 if (_permissionProvider.RemoveGroup(giveRank, targetGroup))
                     _globalUserManager.BroadcastLocalized(_translations, "left_job", target.Name, tJob.JobName);
                 else
-                    caller?.SendLocalizedMessage(_translations, "failed_remove_group");
+                    caller?.SendLocalizedMessage(_translations, "failed_remove_job");
             }
             else
             {
@@ -133,7 +133,7 @@ namespace persiafighter.Plugins.Jobs
             if (_permissionProvider.AddGroup(giveRank, targetGroup))
                 _globalUserManager.BroadcastLocalized(_translations, "joined_job", target.Name, tJob.JobName);
             else
-                caller.SendLocalizedMessage(_translations, "failed_add_group");
+                caller.SendLocalizedMessage(_translations, "failed_add_job");
         }
         public void AcceptApplication(IUserInfo target, IUser caller)
         {
@@ -165,7 +165,7 @@ namespace persiafighter.Plugins.Jobs
 
             if (!permissionGroups.Contains(leaderGroup))
             {
-                caller.SendLocalizedMessage(_translations, "not_leader_of_group",
+                caller.SendLocalizedMessage(_translations, "not_leader_of_job",
                     job.JobName);
                 return;
             }
@@ -176,7 +176,7 @@ namespace persiafighter.Plugins.Jobs
                 _globalUserManager.BroadcastLocalized(_translations, "joined_job", target.Name,
                     job.JobName);
             else
-                caller.SendLocalizedMessage(_translations, "failed_add_group");
+                caller.SendLocalizedMessage(_translations, "failed_add_job");
         }
         public void ClearApplications(IUser caller = null)
         {
