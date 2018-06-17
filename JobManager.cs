@@ -25,7 +25,8 @@ namespace persiafighter.Plugins.Jobs
             if (_availableJobs == null)
                 _availableJobs = new List<IJob>();
 
-            _availableJobs.AddRange(config.Jobs);
+            _availableJobs.AddRange(config.PublicJobs.Cast<IJob>());
+            _availableJobs.AddRange(config.PrivateJobs.Cast<IJob>());
             _availableJobs.RemoveAll(k =>
             {
                 if (k is PrivateJob @private)
@@ -70,7 +71,8 @@ namespace persiafighter.Plugins.Jobs
             if (_availableJobs == null)
                 _availableJobs = new List<IJob>();
 
-            _availableJobs.AddRange(config.Jobs);
+            _availableJobs.AddRange(config.PublicJobs.Cast<IJob>());
+            _availableJobs.AddRange(config.PrivateJobs.Cast<IJob>());
             _availableJobs.RemoveAll(k =>
             {
                 if (k is PrivateJob @private)
