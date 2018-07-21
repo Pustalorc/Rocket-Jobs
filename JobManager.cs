@@ -43,6 +43,34 @@ namespace persiafighter.Plugins.Jobs
             _translations = translationCollection;
         }
 
+        public void KickPlayerFromJob(IUser caller, IUserInfo target)
+        {
+            IUser removeJob = target.UserManager.OnlineUsers.First(c => string.Equals(c.Id, target.Id, StringComparison.OrdinalIgnoreCase));
+            
+            IEnumerable<IPermissionGroup> permissionGroups = _permissionProvider.GetGroups(caller);
+            
+            IJob job = _availableJobs.FirstOrDefault(k =>
+                k is PrivateJob @pjob &&
+                permissionGroups.ToList().Exists(l =>
+                    @pjob.LeaderPermissionGroup.Equals(l.Id, StringComparison.OrdinalIgnoreCase)
+                )
+            );
+
+            if (job == null)
+            {
+                caller.SendLocalizedMessage(_translations, "not_leader_of_any_job");
+                return;
+            }
+
+            IPermissionGroup targetGroup = _permissionProvider.GetGroup(job.PermissionGroup);
+
+            if (_permissionProvider.RemoveGroup(removeJob, targetGroup))
+                _globalUserManager.BroadcastLocalized(_translations, "kicked_job", target.Name,
+                    job.JobName);
+            else
+                caller.SendLocalizedMessage(_translations, "failed_remove_job");
+        }
+
         public void RemovePlayerFromJob(IUserInfo target, string job = null, IUser caller = null)
         {
             IUser giveRank = target.UserManager.OnlineUsers.FirstOrDefault(c => string.Equals(c.Id, target.Id, StringComparison.OrdinalIgnoreCase));

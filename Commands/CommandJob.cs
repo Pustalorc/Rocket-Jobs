@@ -29,6 +29,7 @@ namespace persiafighter.Plugins.Jobs.Commands
             new CommandJobAccept(_rocketJobsPlugin),
             new CommandJobAdmin(_rocketJobsPlugin),
             new CommandJobLeave(_rocketJobsPlugin),
+            new CommandJobKick(_rocketJobsPlugin)
         };
     }
 }
