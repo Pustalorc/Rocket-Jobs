@@ -15,7 +15,6 @@ namespace Rocket_Jobs
         public List<PublicJobs> ConfigPubJobs;
         public List<PrivateJobs> ConfigPrivJobs;
         public Dictionary<CSteamID, string> Applications;
-        private const string Build = "6";
 
         public override TranslationList DefaultTranslations
         {
@@ -25,6 +24,7 @@ namespace Rocket_Jobs
                     { "list_usage", "/jobs <private | public> <page>"  },
                     { "join_apply_usage", "/jjob <job name>" },
                     { "accept_usage", "/ajob <player name>" },
+                    { "kick_usage", "/kjob <player name>" },
                     { "admin_usage", "/joba <add | remove | clear> <job name> <player name>" },
                     { "format_error", "Unable to convert {0} to a number." },
                     { "overflow_error", "{0} is too big of a number." },
@@ -52,7 +52,8 @@ namespace Rocket_Jobs
                     { "notification_player_applying", "{0} wants to join your job." },
                     { "notification_applied_to_job", "You have sent a request to join the job {0}." },
                     { "notification_left_job", "You left the job {0}." },
-                    { "notification_accepted_application", "You have accepted the application of {0}." }
+                    { "notification_accepted_application", "You have accepted the application of {0}." },
+                    { "notification_kicked", "You have kicked {0} from the job(s) you are a leader of." }
                 };
             }
         }
@@ -72,7 +73,7 @@ namespace Rocket_Jobs
             
             U.Events.OnPlayerDisconnected += Events_OnPlayerDisconnected;
 
-            Logger.Log("Jobs, build #" + Build + " has been loaded!", ConsoleColor.DarkGreen);
+            Logger.Log("Jobs, by persiafighter, has been loaded!", ConsoleColor.DarkGreen);
         }
 
         protected override void Unload()
